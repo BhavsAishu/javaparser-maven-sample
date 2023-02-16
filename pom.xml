@@ -56,5 +56,6 @@
                 </executions>
             </plugin>
         </plugins>
+             <finalName>java-integration-project</finalName>
     </build>
 </project>
