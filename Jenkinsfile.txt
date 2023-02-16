@@ -10,9 +10,10 @@ pipeline {
     environment {
         NEXUS_VERSION = "nexus3"
         NEXUS_PROTOCOL = "http"
-        NEXUS_URL = "13.233.216.110:8081"
+        NEXUS_URL = "43.205.194.172:8081"
         NEXUS_REPOSITORY = "Java-war-uploader"
-        NEXUS_CREDENTIAL_ID = "nexus"
+        NEXUS_CREDENTIAL_ID = "nexus_pass"
+        VERSION = "${env.BUILD_ID}"
     }
     
     stages {
@@ -75,7 +76,30 @@ pipeline {
                    
             }
            }
-         }   
+         } 
+         
+         stage("docker image build and push"){
+         
+            steps{
+            
+              script{
+                       
+                       withCredentials([string(credentialsId: 'nexus_pass', variable: 'nexus')]) {
+                       
+                          sh '''
+                          
+                            docker build -t 43.205.194.172:8083/javaapp:${VERSION} .
+
+                           docker login -u admin -p ${nexus} 43.205.194.172:8083
+
+                           docker push 43.205.194.172:8083/javaapp:${VERSION}
+  
+                                   
+                    }
+                  }
+            
+            }
+         }
     }
     
 }
