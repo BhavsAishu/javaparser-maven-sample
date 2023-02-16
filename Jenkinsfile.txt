@@ -78,30 +78,7 @@ pipeline {
            }
          } 
          
-         stage("docker image build and push"){
-         
-            steps{
-            
-              script{
-                       
-                       withCredentials([string(credentialsId: 'nexus_pass', variable: 'nexus')]) {
-                       
-                          sh '''
-                          
-                            docker build -t 43.205.194.172:8083/javaapp:${VERSION} .
-
-                           docker login -u admin -p ${nexus} 43.205.194.172:8083
-
-                           docker push 43.205.194.172:8083/javaapp:${VERSION}
-                           
-                           '''
   
-                                   
-                    }
-                  }
-            
-            }
-         }
     }
     
 }
